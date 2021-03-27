@@ -1,7 +1,6 @@
 const jokesContainer = document.querySelector(".jokes-container");
 const anotherJokeBtn = document.querySelector("#another-joke-btn");
 const getJokeBtn = document.querySelector("#get-joke-btn");
-const btn = document.querySelector(".btn");
 const jokeInput = document.querySelector("#joke-input");
 const jokeHeading = document.querySelector(".joke-heading");
 const jokeText = document.querySelector(".markup");
@@ -41,16 +40,19 @@ class DadJokes {
       );
       if (!res) throw new Error("Something went wrong ://");
       const data = await res.json();
+
+      if (data.results.length == 0)
+        throw new Error(
+          `No jokes for ${this.jokeInputValue}, try something else :(`
+        );
       const length = data.results.length;
       console.log(data);
       console.log(this.randJoke(length));
       const joke = data.results[this.randJoke(length) - 1].joke;
-
-      if (data.results.length == 0) throw new Error("No results!");
       this.toggleInput(joke);
     } catch (err) {
       console.error(err.message);
-      this.renderError("Something went wrong, try again");
+      this.renderError(err.message);
     }
   };
   toggleButtons = function (on, off) {
@@ -60,13 +62,9 @@ class DadJokes {
   renderError = function (message = "Something went wrong, try again") {
     jokeHeading.innerHTML = message;
     setTimeout(() => {
-      jokeHeading.innerHTML = `Enter a joke topic`;
-    }, 1500);
+      jokeHeading.innerHTML = `Enter a joke topic!`;
+    }, 2000);
   };
-}
-
-class NewJoke extends DadJokes {
-  constructor() {}
 }
 
 getJokeBtn.addEventListener("click", function () {
@@ -75,9 +73,9 @@ getJokeBtn.addEventListener("click", function () {
 
 anotherJokeBtn.addEventListener("click", function () {
   getJokeBtn.classList.remove("hidden");
-  anotherJokeBtn.classList.add("hidden");
-  jokeText.innerHTML = "";
   jokeInput.classList.remove("hidden");
-  jokeInput.value = "";
+  anotherJokeBtn.classList.add("hidden");
+  jokeText.innerHTML = jokeInput.value = "";
+
   jokeHeading.innerHTML = "Enter a different topic";
 });
