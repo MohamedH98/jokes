@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: #452145;
+  background-color: #3d5a80;
   font-family: "Roboto", "sans-serif";
   display: flex;
   align-items: center;
@@ -13,7 +13,7 @@ body {
   margin: 0;
 }
 .panel-container {
-  background-color: #efadbf;
+  background-color: #98c1d9;
   width: 80vw;
   height: 40vh;
   text-align: center;
@@ -31,12 +31,25 @@ body {
 label {
   line-height: 20px;
 }
+.joke-heading {
+  font-size: 20px;
+  font-weight: 700;
+}
+#joke-input {
+  font-size: 18px;
+  border-radius: 5px;
+}
+.markup {
+  font-size: 18px;
+}
 .btn {
-  background-color: #cda;
+  background-color: #ee6c4d;
   border: 0;
   border-radius: 4px;
   padding: 12px 30px;
-  cursor: point;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .btn:active {

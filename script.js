@@ -9,7 +9,7 @@ const jokeText = document.querySelector(".markup");
 class DadJokes {
   constructor() {
     this.jokeInputValue = jokeInput.value;
-    !this.jokeInputValue ? this.renderError() : this.getJokes();
+    !this.jokeInputValue ? this.renderError("Enter a joke!") : this.getJokes();
   }
 
   randJoke = function (num) {
@@ -24,6 +24,10 @@ class DadJokes {
       "afterbegin",
       `<p class="markup">${markup}</p>`
     );
+    const capitaliseInput =
+      this.jokeInputValue.charAt(0).toUpperCase() +
+      this.jokeInputValue.slice(1);
+    jokeHeading.innerHTML = `🚨 ${capitaliseInput} joke alert!`;
     this.jokeInputValue = "";
   };
 
@@ -37,9 +41,12 @@ class DadJokes {
       );
       if (!res) throw new Error("Something went wrong ://");
       const data = await res.json();
+      const length = data.results.length;
+      console.log(data);
+      console.log(this.randJoke(length));
+      const joke = data.results[this.randJoke(length) - 1].joke;
+
       if (data.results.length == 0) throw new Error("No results!");
-      const joke = await data.results[this.randJoke(data.results.length - 1)]
-        .joke;
       this.toggleInput(joke);
     } catch (err) {
       console.error(err.message);
@@ -62,16 +69,15 @@ class NewJoke extends DadJokes {
   constructor() {}
 }
 
-getJokeBtn.addEventListener("click", function (e) {
-  e.preventDefault();
+getJokeBtn.addEventListener("click", function () {
   new DadJokes();
 });
 
-anotherJokeBtn.addEventListener("click", function (e) {
-  e.preventDefault();
+anotherJokeBtn.addEventListener("click", function () {
   getJokeBtn.classList.remove("hidden");
   anotherJokeBtn.classList.add("hidden");
   jokeText.innerHTML = "";
   jokeInput.classList.remove("hidden");
   jokeInput.value = "";
+  jokeHeading.innerHTML = "Enter a different topic";
 });
